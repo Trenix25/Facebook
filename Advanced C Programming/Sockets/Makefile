@@ -6,7 +6,7 @@
 #
 # Compiler to use:
 #
-#CC = gcc
+CC = gcc
 #
 # Compiler flags:
 #

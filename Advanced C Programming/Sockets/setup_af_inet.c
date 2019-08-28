@@ -1381,7 +1381,46 @@ Something went wrong when waiting for the child process.\n" );
                     /* We couldn't pass it back from the child process. */
 
                     *ssock_fd = *csock_fd + 1;
-               }
+
+#ifdef WAIT_FOR_CHILD
+
+#ifdef DEBUG
+
+                    printf( "Waiting for the child process...\n" );
+
+#endif
+
+                    errno = 0;
+                    ret = waitpid( ( -1 ), NULL, 0 );
+                    save_errno = errno;
+
+#ifdef SHOW_WAIT_ERRORS
+
+                    if ( ret == ( -1 ) )
+                    {
+                         printf( "\n\
+Something went wrong when waiting for the child process.\n" );
+                         if ( save_errno != 0 )
+                         {
+                              printf( "Error: %s.\n",
+                                      strerror( save_errno ) );
+                         }
+                    }
+
+#endif
+
+#ifdef DEBUG
+
+                    if ( ret == pid )
+                    {
+                         printf( "The child process has exited.\n" );
+                    }
+
+#endif
+
+#endif  /* WAIT_FOR_CHILD */
+
+               }  /* if ( ret != 0 ) */
 
           }    /* if ( sock_type != SOCK_DGRAM ) */
 
