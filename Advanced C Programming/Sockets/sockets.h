@@ -16,13 +16,9 @@
 
 #define _POSIX_SOURCE
 
-#if 0
-
-/* fsync(2) needs this. */
+/* _exit(2) needs this. */
 
 #define _POSIX_C_SOURCE 200112L
-
-#endif
 
 /* Gather the necessary include/header files. */
 

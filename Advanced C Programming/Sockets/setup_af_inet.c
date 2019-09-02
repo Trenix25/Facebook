@@ -1247,7 +1247,7 @@ Something went wrong when calling accept(2).\n" );
                               exit( EXIT_FAILURE );
                          }
                          printf( "New server socket fd: %d.\n", ret );
-                         exit( EXIT_SUCCESS );
+                         _exit( EXIT_SUCCESS );
                     }
                     else  /* pid > 0 */
                     {
