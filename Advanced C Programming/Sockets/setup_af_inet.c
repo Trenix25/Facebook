@@ -657,67 +657,68 @@ The SO_BROADCAST option has been set on the server socket.\n" );
 
 #endif  /* USE_BROADCAST_AF_INET */
 
-               }
-               else  /* *ssock != ( -1 ) */
-               {
-                    already_listening = 1;
-               }
-
 #ifdef USE_DONTROUTE_AF_INET
 
-               /* Set the SO_DONTROUTE option on the server socket. */
+                    /* Set the SO_DONTROUTE option on the server socket. */
 
-               size = sizeof( opt );
-               opt = 1;
-               errno = 0;
-               ret = setsockopt( *ssock_fd, SOL_SOCKET, SO_DONTROUTE,
-                                 &opt, size );
-               if ( ret != 0 )
-               {
-                    save_errno = errno;
-                    printf( "\n\
+                    size = sizeof( opt );
+                    opt = 1;
+                    errno = 0;
+                    ret = setsockopt( *ssock_fd, SOL_SOCKET, SO_DONTROUTE,
+                                      &opt, size );
+                    if ( ret != 0 )
+                    {
+                         save_errno = errno;
+                         printf( "\n\
 Something went wrong when setting the SO_DONTROUTE option for the server.\
 \n" );
-                    if ( save_errno != 0 )
-                    {
-                         printf( "Error: %s.\n", strerror( save_errno ) );
-                    }
+                         if ( save_errno != 0 )
+                         {
+                              printf( "Error: %s.\n",
+                                      strerror( save_errno ) );
+                         }
 
 #ifdef DEBUG
 
-                    printf( "\nShutting down sockets.\n" );
+                         printf( "\nShutting down sockets.\n" );
 
 #else
 
-                    printf( "\n" );
-
-#endif
-
-                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                            domain, *type );
-
-#ifdef DEBUG
-
-                    if ( ret == 0 )
-                    {
                          printf( "\n" );
-                    }
 
 #endif
 
-                    errno = 0;
-                    return ( -1 );
-
-               }    /* if ( ret != 0 ) */
+                         ret = shutdown_sockets( csock_fd, lsock_fd,
+                                                 ssock_fd, domain, *type );
 
 #ifdef DEBUG
 
-               printf( "\
+                         if ( ret == 0 )
+                         {
+                              printf( "\n" );
+                         }
+
+#endif
+
+                         errno = 0;
+                         return ( -1 );
+
+                    }    /* if ( ret != 0 ) */
+
+#ifdef DEBUG
+
+                    printf( "\
 The SO_DONTROUTE option has been set on the server socket.\n" );
 
 #endif
 
 #endif  /* USE_DONTROUTE_AF_INET */
+
+               }
+               else  /* *ssock != ( -1 ) */
+               {
+                    already_listening = 1;
+               }
 
           }    /* if ( sock_type != SOCK_DGRAM ) */
 
@@ -1724,167 +1725,105 @@ The SO_KEEPALIVE option has been set on the client socket.\n" );
           }
           else  /* sock_type == SOCK_DGRAM */
           {
-               /* Open the client socket if it is currently closed. */
+               /* Set the client socket to nonblocking mode. */
 
-               if ( *csock_fd == ( -1 ) )
+               errno = 0;
+               ret = fcntl( *csock_fd, F_SETFD, O_NONBLOCK );
+               if ( ret != 0 )
                {
-                    errno = 0;
-                    ret = socket( AF_INET, sock_type, 0 );
-                    if ( ret < 0 )
-                    {
-                         save_errno = errno;
-                         printf( "\n\
-Something went wrong when opening the client socket.\n" );
-                         if ( save_errno != 0 )
-                         {
-                              printf( "Error: %s.\n",
-                                      strerror( save_errno ) );
-                         }
-
-#ifdef DEBUG
-
-                         printf( "\nShutting down sockets.\n" );
-
-#else
-
-                         printf( "\n" );
-
-#endif
-
-                         ret = shutdown_sockets( csock_fd, lsock_fd,
-                                                 ssock_fd, domain,
-                                                 *type );
-
-#ifdef DEBUG
-
-                         if ( ret == 0 )
-                         {
-                              printf( "\n" );
-                         }
-
-#endif
-
-                         errno = 0;
-                         return ( -1 );
-
-                    }    /* if ( ret < 0 ) */
-
-                    *csock_fd = ret;
-
-#ifdef DEBUG
-
-                    printf( "The client socket has been opened.\n" );
-
-#endif
-
-                    /* Set the client socket to nonblocking mode. */
-
-                    errno = 0;
-                    ret = fcntl( *csock_fd, F_SETFD, O_NONBLOCK );
-                    if ( ret != 0 )
-                    {
-                         save_errno = errno;
-                         printf( "\n\
+                    save_errno = errno;
+                    printf( "\n\
 Something went wrong when setting the client socket to nonblocking mode.\
 \n" );
-                         if ( save_errno != 0 )
-                         {
-                              printf( "Error: %s.\n",
-                                      strerror( save_errno ) );
-                         }
+                    if ( save_errno != 0 )
+                    {
+                         printf( "Error: %s.\n", strerror( save_errno ) );
+                    }
 
 #ifdef DEBUG
 
-                         printf( "\nShutting down sockets.\n" );
+                    printf( "\nShutting down sockets.\n" );
 
 #else
 
+                    printf( "\n" );
+
+#endif
+
+                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
+                                            domain, *type );
+
+#ifdef DEBUG
+
+                    if ( ret == 0 )
+                    {
                          printf( "\n" );
+                    }
 
 #endif
 
-                         ret = shutdown_sockets( csock_fd, lsock_fd,
-                                                 ssock_fd, domain,
-                                                 *type );
+                    errno = 0;
+                    return ( -1 );
+
+               }    /* if ( ret != 0 ) */
 
 #ifdef DEBUG
 
-                         if ( ret == 0 )
-                         {
-                              printf( "\n" );
-                         }
-
-#endif
-
-                         errno = 0;
-                         return ( -1 );
-
-                    }    /* if ( ret != 0 ) */
-
-#ifdef DEBUG
-
-                    printf( "\
+               printf( "\
 The client socket has been set to nonblocking mode.\n" );
 
 #endif
 
 #ifdef USE_BROADCAST_AF_INET
 
-                    /*
+               /* Set the SO_BROADCAST option on the client socket. */
 
-                         Set the SO_BROADCAST option
-                         on the client socket.
-
-                    */
-
-                    size = sizeof( opt );
-                    opt = 1;
-                    errno = 0;
-                    ret = setsockopt( *csock_fd, SOL_SOCKET,
-                                      SO_BROADCAST, &opt, size );
-                    if ( ret != 0 )
-                    {
-                         save_errno = errno;
-                         printf( "\n\
+               size = sizeof( opt );
+               opt = 1;
+               errno = 0;
+               ret = setsockopt( *csock_fd, SOL_SOCKET, SO_BROADCAST, &opt,
+                                 size );
+               if ( ret != 0 )
+               {
+                    save_errno = errno;
+                    printf( "\n\
 Something went wrong when setting the SO_BROADCAST option for the client.\
 \n" );
-                         if ( save_errno != 0 )
-                         {
-                              printf( "Error: %s.\n",
-                                      strerror( save_errno ) );
-                         }
+                    if ( save_errno != 0 )
+                    {
+                         printf( "Error: %s.\n", strerror( save_errno ) );
+                    }
 
 #ifdef DEBUG
 
-                         printf( "\nShutting down sockets.\n" );
+                    printf( "\nShutting down sockets.\n" );
 
 #else
 
+                    printf( "\n" );
+
+#endif
+
+                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
+                                            domain, *type );
+
+#ifdef DEBUG
+
+                    if ( ret == 0 )
+                    {
                          printf( "\n" );
+                    }
 
 #endif
 
-                         ret = shutdown_sockets( csock_fd, lsock_fd,
-                                                 ssock_fd, domain,
-                                                 *type );
+                    errno = 0;
+                    return ( -1 );
+
+               }    /* if ( ret != 0 ) */
 
 #ifdef DEBUG
 
-                         if ( ret == 0 )
-                         {
-                             printf( "\n" );
-                         }
-
-#endif
-
-                         errno = 0;
-                         return ( -1 );
-
-                    }    /* if ( ret != 0 ) */
-
-#ifdef DEBUG
-
-                    printf( "\
+               printf( "\
 The SO_BROADCAST option has been set on the client socket.\n" );
 
 #endif
@@ -1893,68 +1832,63 @@ The SO_BROADCAST option has been set on the client socket.\n" );
 
 #ifdef USE_DEFAULT_TARGET_AF_INET
 
-                    /*
+               /*
 
-                         Set the default target for the
-                         client socket with connect(2).
+                    Set the default target for the
+                    client socket with connect(2).
 
-                    */
+               */
 
-                    errno = 0;
-                    ret = connect( *csock_fd,
-                                   ( struct sockaddr * )( &server ),
-                                   sizeof( struct sockaddr_in ) );
-                    if ( ret != 0 )
-                    {
-                         save_errno = errno;
-                         printf( "\n\
+               errno = 0;
+               ret = connect( *csock_fd, ( struct sockaddr * )( &server ),
+                              sizeof( struct sockaddr_in ) );
+               if ( ret != 0 )
+               {
+                    save_errno = errno;
+                    printf( "\n\
 Something went wrong while trying to set \
 the default target for the client.\n" );
-                         if ( save_errno != 0 )
-                         {
-                              printf( "Error: %s.\n",
-                                      strerror( save_errno ) );
-                         }
+                    if ( save_errno != 0 )
+                    {
+                         printf( "Error: %s.\n", strerror( save_errno ) );
+                    }
 
 #ifdef DEBUG
 
-                         printf( "\nShutting down sockets.\n" );
+                    printf( "\nShutting down sockets.\n" );
 
 #else
 
+                    printf( "\n" );
+
+#endif
+
+                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
+                                            domain, *type );
+
+#ifdef DEBUG
+
+                    if ( ret == 0 )
+                    {
                          printf( "\n" );
+                    }
 
 #endif
 
-                         ret = shutdown_sockets( csock_fd, lsock_fd,
-                                                 ssock_fd, domain,
-                                                 *type );
+                    errno = 0;
+                    return ( -1 );
+
+               }    /* if ( ret != 0 ) */
 
 #ifdef DEBUG
 
-                         if ( ret == 0 )
-                         {
-                              printf( "\n" );
-                         }
-
-#endif
-
-                         errno = 0;
-                         return ( -1 );
-
-                    }    /* if ( ret != 0 ) */
-
-#ifdef DEBUG
-
-                    printf( "\
+               printf( "\
 The default target for the client socket has\
  been set to the server socket.\n" );
 
 #endif
 
 #endif  /*  USE_DEFAULT_TARGET_AF_INET */
-
-               }    /* if ( *csock_fd == ( -1 ) ) */
 
           }    /* if ( sock_type != SOCK_DGRAM ) */
 
@@ -1964,6 +1898,8 @@ The default target for the client socket has\
 
      if ( use_server == 1 )
      {
+          /* This has already been set if we are using datagrams. */
+
           if ( sock_type != SOCK_DGRAM )
           {
                /* Set the SO_DONTROUTE option on the server socket. */

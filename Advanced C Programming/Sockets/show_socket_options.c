@@ -7,7 +7,7 @@
 */
 
 #ifndef _SHOW_SOCKET_OPTIONS_C
-#define SHOW_SOCKET_OPTIONS_C
+#define _SHOW_SOCKET_OPTIONS_C
 
 #include "sockets.h"
 
