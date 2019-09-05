@@ -1177,6 +1177,63 @@ Something went wrong when opening the client socket.\n" );
 
           if ( sock_type != SOCK_DGRAM )
           {
+
+#ifdef USE_DONTROUTE_AF_INET
+
+               /* Set the SO_DONTROUTE option on the client socket. */
+
+               size = sizeof( opt );
+               opt = 1;
+               errno = 0;
+               ret = setsockopt( *csock_fd, SOL_SOCKET, SO_DONTROUTE, &opt,
+                                 size );
+               if ( ret != 0 )
+               {
+                    save_errno = errno;
+                    printf( "\n\
+Something went wrong when setting the SO_DONTROUTE option for the client.\
+\n" );
+                    if ( save_errno != 0 )
+                    {
+                         printf( "Error: %s.\n", strerror( save_errno ) );
+                    }
+
+#ifdef DEBUG
+
+                    printf( "\nShutting down sockets.\n" );
+
+#else
+
+                    printf( "\n" );
+
+#endif
+
+                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
+                                            domain, *type );
+
+#ifdef DEBUG
+
+                    if ( ret == 0 )
+                    {
+                         printf( "\n" );
+                    }
+
+#endif
+
+                    errno = 0;
+                    return ( -1 );
+
+               }    /* if ( ret != 0 ) */
+
+#ifdef DEBUG
+
+               printf( "\
+The SO_DONTROUTE option has been set on the client socket.\n" );
+
+#endif
+
+#endif  /* USE_DONTROUTE_AF_INET */
+
                if ( use_server == 1 )
                {
                     /* Create a child process to call accept(2). */
@@ -1830,6 +1887,69 @@ The SO_BROADCAST option has been set on the client socket.\n" );
 
 #endif  /* USE_BROADCAST_AF_INET */
 
+#ifdef USE_DONTROUTE_AF_INET
+
+               /* This has already been set if sock_type == SOCK_STREAM. */
+
+               if ( use_client == 1 && sock_type == SOCK_DGRAM )
+               {
+                    /* Set the SO_DONTROUTE option on the client socket. */
+
+                    size = sizeof( opt );
+                    opt = 1;
+                    errno = 0;
+                    ret = setsockopt( *csock_fd, SOL_SOCKET, SO_DONTROUTE,
+                                      &opt, size );
+                    if ( ret != 0 )
+                    {
+                         save_errno = errno;
+                         printf( "\n\
+Something went wrong when setting the SO_DONTROUTE option for the client.\
+\n" );
+                         if ( save_errno != 0 )
+                         {
+                              printf( "Error: %s.\n",
+                                      strerror( save_errno ) );
+                         }
+
+#ifdef DEBUG
+
+                         printf( "\nShutting down sockets.\n" );
+
+#else
+
+                         printf( "\n" );
+
+#endif
+
+                         ret = shutdown_sockets( csock_fd, lsock_fd,
+                                                 ssock_fd, domain, *type );
+
+#ifdef DEBUG
+
+                         if ( ret == 0 )
+                         {
+                              printf( "\n" );
+                         }
+
+#endif
+
+                         errno = 0;
+                         return ( -1 );
+
+                    }    /* if ( ret != 0 ) */
+
+#ifdef DEBUG
+
+                    printf( "\
+The SO_DONTROUTE option has been set on the client socket.\n" );
+
+#endif
+
+               }    /* if ( use_client == 1 && sock_type == SOCK_DGRAM ) */
+
+#endif  /* USE_DONTROUTE_AF_INET */
+
 #ifdef USE_DEFAULT_TARGET_AF_INET
 
                /*
@@ -1957,62 +2077,6 @@ The SO_DONTROUTE option has been set on the server socket.\n" );
           }  /* if ( sock_type != SOCK_DGRAM ) */
 
      }    /* if ( use_server == 1 ) */
-
-     if ( use_client == 1 )
-     {
-          /* Set the SO_DONTROUTE option on the client socket. */
-
-          size = sizeof( opt );
-          opt = 1;
-          errno = 0;
-          ret = setsockopt( *csock_fd, SOL_SOCKET, SO_DONTROUTE, &opt,
-                            size );
-          if ( ret != 0 )
-          {
-               save_errno = errno;
-               printf( "\n\
-Something went wrong when setting the SO_DONTROUTE option for the client.\
-\n" );
-               if ( save_errno != 0 )
-               {
-                    printf( "Error: %s.\n", strerror( save_errno ) );
-               }
-
-#ifdef DEBUG
-
-               printf( "\nShutting down sockets.\n" );
-
-#else
-
-               printf( "\n" );
-
-#endif
-
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
-
-#ifdef DEBUG
-
-               if ( ret == 0 )
-               {
-                    printf( "\n" );
-               }
-
-#endif
-
-               errno = 0;
-               return ( -1 );
-
-          }    /* if ( ret != 0 ) */
-
-#ifdef DEBUG
-
-          printf( "\
-The SO_DONTROUTE option has been set on the client socket.\n" );
-
-#endif
-
-     }    /* if ( use_client == 1 ) */
 
 #endif  /* USE_DONTROUTE_AF_INET */
 
