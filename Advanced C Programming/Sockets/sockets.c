@@ -34,16 +34,46 @@ int main( void )
      int csock_fd = -1, lsock_fd = -1, ssock_fd = -1;
 
      int domain = 0, exit_loop, len = 80, ret, save_errno, type = 0;
-     struct sigaction io_new, urg_new;
+     struct sigaction alrm_new, io_new, urg_new;
 
      /* Initialize these global variables: */
 
      sig_io_received = 0;
      sig_urg_received = 0;
 
-     /* Set up signal handling functions. */
+     /* Set up the signal handling functions: */
 
-     /* Set up SIGIO. */
+     /* Set up SIGALRM: */
+
+     /* Clear the data space. */
+
+     memset( &alrm_new, 0, sizeof( alrm_new ) );
+
+     /* Set the new signal handling function. */
+
+     alrm_new.sa_handler = catch_sigalrm;
+
+#ifdef DEBUG
+
+     printf( "Calling sigaction(2) to set the catch for SIGALRM.\n" );
+
+#endif
+
+     ret = sigaction( SIGALRM, &alrm_new, NULL );
+     if ( ret != 0 )
+     {
+          save_errno = errno;
+          printf( "\
+Something went wrong when trying to setup catch_sigalrm().\n" );
+          if ( save_errno != 0 )
+          {
+               printf( "Error: %s.\n", strerror( save_errno ) );
+          }
+          printf( "\n" );
+          exit( EXIT_FAILURE );
+     }
+
+     /* Set up SIGIO: */
 
      memset( &io_new, 0, sizeof( io_new ) );  /* Clear the data space. */
      io_new.sa_handler = catch_sigio;
@@ -68,7 +98,7 @@ Something went wrong when trying to setup catch_sigio().\n" );
           exit( EXIT_FAILURE );
      }
 
-     /* Set up SIGURG. */
+     /* Set up SIGURG: */
 
      memset( &urg_new, 0, sizeof( urg_new ) );  /* Clear the data space. */
      urg_new.sa_handler = catch_sigurg;
@@ -429,6 +459,13 @@ Something went wrong while trying to close the sockets.\n" );
 
      printf( "Successful exit.\n\n" );
      exit( EXIT_SUCCESS );
+}
+
+/* This is our signal hangling function for SIGALRM. */
+
+void catch_sigalrm( int sig_num )
+{
+     return;
 }
 
 /* This is our signal hangling function for SIGIO. */

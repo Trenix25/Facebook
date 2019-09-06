@@ -20,7 +20,7 @@
 
 #define _POSIX_C_SOURCE 200112L
 
-/* Gather the necessary include/header files. */
+/* Gather the necessary header files. */
 
 #include <errno.h>
 #include <fcntl.h>
@@ -36,8 +36,14 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
+/* Make sure these are defined: */
+
 #ifndef ENOENT
 #define ENOENT 2
+#endif
+
+#ifndef EINTR
+#define EINTR 4
 #endif
 
 #ifndef EFAULT
@@ -46,6 +52,10 @@
 
 #ifndef EINVAL
 #define EINVAL 22
+#endif
+
+#ifndef SIGALRM
+#define SIGALRM 14
 #endif
 
 #ifndef SIGTERM
@@ -90,7 +100,7 @@
 
 */
 
-#define USE_DONTROUTE_AF_INET
+#undef USE_DONTROUTE_AF_INET
 #define USE_DONTROUTE_AF_INET6
 
 /* Define SHOW_CONNECTIONS to show connected socket address information. */
@@ -119,12 +129,7 @@
 #undef SHOW_WAIT_ERRORS
 #endif
 
-/*
-
-     Defines the number of socket domains,
-     plus one for the exit option.
-
-*/
+/* Defines the number of socket domains. */
 
 #define MAX_DOMAINS 4
 
@@ -188,6 +193,8 @@ int setup_sockets( int *csock_fd, int *lsock_fd, int *ssock_fd,
 
 int shutdown_sockets( int *csock_fd, int *lsock_fd,
                       int *ssock_fd, int domain, int type );
+
+void catch_sigalrm( int sig_num );
 
 void catch_sigio( int sig_num );
 

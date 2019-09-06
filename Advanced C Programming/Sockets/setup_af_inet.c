@@ -514,6 +514,68 @@ The server's listening socket has been opened.\n" );
 
 #endif
 
+#ifdef USE_DONTROUTE_AF_INET
+
+                    /*
+
+                         Set the SO_DONTROUTE option on
+                         the server's listening socket.
+
+                    */
+
+                    size = sizeof( opt );
+                    opt = 1;
+                    errno = 0;
+                    ret = setsockopt( *lsock_fd, SOL_SOCKET, SO_DONTROUTE,
+                                      &opt, size );
+                    if ( ret != 0 )
+                    {
+                         save_errno = errno;
+                         printf( "\n\
+Something went wrong when setting the SO_DONTROUTE\n\
+option on the server's listening socket.\n" );
+                         if ( save_errno != 0 )
+                         {
+                              printf( "Error: %s.\n",
+                                      strerror( save_errno ) );
+                         }
+
+#ifdef DEBUG
+
+                         printf( "\nShutting down sockets.\n" );
+
+#else
+
+                         printf( "\n" );
+
+#endif
+
+                         ret = shutdown_sockets( csock_fd, lsock_fd,
+                                                 ssock_fd, domain, *type );
+
+#ifdef DEBUG
+
+                         if ( ret == 0 )
+                         {
+                              printf( "\n" );
+                         }
+
+#endif
+
+                         errno = 0;
+                         return ( -1 );
+
+                    }    /* if ( ret != 0 ) */
+
+#ifdef DEBUG
+
+                    printf( "\
+The SO_DONTROUTE option has been set on the server's listening socket.\n" );
+
+#endif
+
+#endif  /* USE_DONTROUTE_AF_INET */
+
                }
                else  /* *lsock != ( -1 ) */
                {
@@ -612,8 +674,8 @@ The server socket has been set to nonblocking mode.\n" );
                     {
                          save_errno = errno;
                          printf( "\n\
-Something went wrong when setting the SO_BROADCAST option for the server.\
-\n" );
+Something went wrong when setting the\n\
+SO_BROADCAST option on the server socket.\n" );
                          if ( save_errno != 0 )
                          {
                               printf( "Error: %s.\n",
@@ -670,8 +732,8 @@ The SO_BROADCAST option has been set on the server socket.\n" );
                     {
                          save_errno = errno;
                          printf( "\n\
-Something went wrong when setting the SO_DONTROUTE option for the server.\
-\n" );
+Something went wrong when setting the\n\
+SO_DONTROUTE option on the server socket.\n" );
                          if ( save_errno != 0 )
                          {
                               printf( "Error: %s.\n",
@@ -1191,8 +1253,8 @@ Something went wrong when opening the client socket.\n" );
                {
                     save_errno = errno;
                     printf( "\n\
-Something went wrong when setting the SO_DONTROUTE option for the client.\
-\n" );
+Something went wrong when setting the\n\
+SO_DONTROUTE option on the client socket.\n" );
                     if ( save_errno != 0 )
                     {
                          printf( "Error: %s.\n", strerror( save_errno ) );
@@ -1236,7 +1298,7 @@ The SO_DONTROUTE option has been set on the client socket.\n" );
 
                if ( use_server == 1 )
                {
-                    /* Create a child process to call accept(2). */
+                    /* Create a child process to call connect(2). */
 
                     errno = 0;
                     pid = fork();
@@ -1276,13 +1338,107 @@ Something went wrong when trying to create the child process.\n" );
 
                          errno = 0;
                          return ( -1 );
+
                     }
                     else if ( pid == 0 )  /* Child process */
                     {
 
+                         /* Give the server a chance to call accept(2). */
+
+                         sleep( 1 );
+
 #ifdef DEBUG
 
-     printf( "\
+                         if ( initial == 1 )
+                         {
+                              printf( "Trying to connect to %s...\n",
+                                      ip_str );
+                         }
+                         else
+                         {
+                              printf( "Trying to reconnect to %s...\n",
+                                      ip_str );
+                         }
+
+#endif
+
+                         errno = 0;
+                         ret = connect( *csock_fd,
+                                        ( struct sockaddr * )( &server ),
+                                        sizeof( struct sockaddr_in ) );
+
+                         if ( ret != 0 )
+                         {
+                              save_errno = errno;
+                              printf( "\n\
+Something went wrong while trying to connect to the server.\n" );
+                              if ( save_errno != 0 )
+                              {
+                                   printf( "Error: %s.\n",
+                                           strerror( save_errno ) );
+                              }
+
+                              /* Wake up the parent process. */
+
+                              errno = 0;
+                              ret = kill( getppid(), SIGALRM );
+                              save_errno = errno;
+
+                              if ( ret != 0 )
+                              {
+                                   printf( "\n\
+Something went wrong when trying to wake up the parent process.\n" );
+                                   if ( save_errno != 0 )
+                                   {
+                                        printf( "Error: %s.\n",
+                                                strerror( save_errno ) );
+                                   }
+
+#ifdef DEBUG
+
+                                   printf( "\nShutting down sockets.\n" );
+
+#else
+
+                                   printf( "\n" );
+
+#endif
+
+                                   ret = shutdown_sockets( csock_fd,
+                                                           lsock_fd,
+                                                           ssock_fd, domain,
+                                                           *type );
+
+#ifdef DEBUG
+
+                                   if ( ret == 0 )
+                                   {
+                                        printf( "\n" );
+                                   }
+#endif
+
+                                   errno = 0;
+                                   return ( -1 );
+
+                              }  /* if ( ret != 0 ) */
+
+                              /* Stop the child process. */
+
+                              _exit( EXIT_FAILURE );
+
+                         }  /* if ( ret != 0 ) */
+
+                         /* Stop the child process. */
+
+                         _exit( EXIT_SUCCESS );
+
+                    }
+                    else  /* Parent process, pid > 0. */
+                    {
+
+#ifdef DEBUG
+
+                         printf( "\
 The server is ready and waiting to accept a new connection.\n" );
 
 #endif
@@ -1302,77 +1458,121 @@ Something went wrong when calling accept(2).\n" );
                                    printf( "Error: %s.\n",
                                            strerror( save_errno ) );
                               }
-                              exit( EXIT_FAILURE );
-                         }
-                         printf( "New server socket fd: %d.\n", ret );
-                         _exit( EXIT_SUCCESS );
-                    }
-                    else  /* pid > 0 */
-                    {
 
-#ifdef DEBUG
+                              /* Shut down the child process. */
 
-                         printf( "\
-Waiting for ten seconds to let the child process do its job.\n" );
+                              errno = 0;
+                              ret = kill( pid, SIGTERM );
+                              save_errno = errno;
 
-#endif
-
-                         sleep( 10 );
-                    }
-
-               }    /* if ( use_server == 1 ) */
-
-#ifdef DEBUG
-
-               if ( initial == 1 )
-               {
-                    printf( "Trying to connect to %s...\n", ip_str );
-               }
-               else
-               {
-                    printf( "Trying to reconnect to %s...\n", ip_str );
-               }
-
-#endif
-
-               errno = 0;
-               ret = connect( *csock_fd,
-                              ( struct sockaddr * )( &server ),
-                              sizeof( struct sockaddr_in ) );
-               if ( ret != 0 )
-               {
-                    save_errno = errno;
-                    printf( "\n\
-Something went wrong while trying to connect to the server.\n" );
-                    if ( save_errno != 0 )
-                    {
-                         printf( "Error: %s.\n", strerror( save_errno ) );
-                    }
-
-                    /* Shut down the child process. */
-
-                    errno = 0;
-                    ret = kill( pid, SIGTERM );
-                    save_errno = errno;
-
-                    if ( ret != 0 )
-                    {
-                         printf( "\n\
+                              if ( ret != 0 )
+                              {
+                                   printf( "\n\
 Something went wrong while trying to shut down the child process.\n" );
-                         if ( save_errno != 0 )
-                         {
-                              printf( "Error: %s.\n",
-                                      strerror( save_errno ) );
-                         }
-                    }
-                    else  /* Wait for the child process. */
-                    {
+                                   if ( save_errno != 0 )
+                                   {
+                                        printf( "Error: %s.\n",
+                                                strerror( save_errno ) );
+                                   }
+                              }
+                              else  /* Wait for the child process. */
+                              {
 
 #ifdef WAIT_FOR_CHILD
 
 #ifdef DEBUG
 
-                         printf( "\nWaiting for the child process...\n" );
+                                   printf( "\n\
+Waiting for the child process...\n" );
+
+#endif
+
+                                   errno = 0;
+                                   ret = waitpid( ( -1 ), NULL, 0 );
+                                   save_errno = errno;
+
+#ifdef SHOW_WAIT_ERRORS
+
+                                   if ( ret == ( -1 ) )
+                                   {
+                                        printf( "\n\
+Something went wrong while waiting for the child process.\n" );
+                                        if ( save_errno != 0 )
+                                        {
+                                             printf( "Error: %s.\n",
+                                                     strerror( save_errno )
+                                                   );
+                                        }
+                                   }
+
+#endif
+
+#ifdef DEBUG
+
+                                   else if ( ret == pid )
+                                   {
+                                        printf( "\
+The child process has exited.\n" );
+                                   }
+
+#endif
+
+#endif  /* WAIT_FOR_CHILD */
+
+#ifdef DEBUG
+
+                                   printf( "\nShutting down sockets.\n" );
+
+#else
+
+                                   printf( "\n" );
+
+#endif
+
+                                   ret = shutdown_sockets( csock_fd,
+                                                           lsock_fd,
+                                                           ssock_fd, domain,
+                                                           *type );
+
+#ifdef DEBUG
+
+                                   if ( ret == 0 )
+                                   {
+                                        printf( "\n" );
+                                   }
+
+#endif
+
+                                   errno = 0;
+                                   return ( -1 );
+
+                              }    /* if ( ret != 0 ) */
+
+                         }    /* if ( ret < 0 ) */
+
+                         *ssock_fd = ret;
+
+#ifdef DEBUG
+
+                         if ( initial == 1 )
+                         {
+                              printf( "Connection to %s accepted.\n",
+                                      server_name );
+                         }
+                         else
+                         {
+                              printf( "Reconnected to %s.\n", server_name );
+                         }
+
+#endif
+
+                         /* Wait for the child process. */
+
+#ifdef WAIT_FOR_CHILD
+
+#ifdef DEBUG
+
+                         printf( "Waiting for the child process...\n" );
 
 #endif
 
@@ -1385,7 +1585,7 @@ Something went wrong while trying to shut down the child process.\n" );
                          if ( ret == ( -1 ) )
                          {
                               printf( "\n\
-Something went wrong when waiting for the child process.\n" );
+Something went wrong while waiting for the child process.\n" );
                               if ( save_errno != 0 )
                               {
                                    printf( "Error: %s.\n",
@@ -1397,7 +1597,7 @@ Something went wrong when waiting for the child process.\n" );
 
 #ifdef DEBUG
 
-                         if ( ret == pid )
+                         else if ( ret == pid )
                          {
                               printf( "The child process has exited.\n" );
                          }
@@ -1406,79 +1606,97 @@ Something went wrong when waiting for the child process.\n" );
 
 #endif  /* WAIT_FOR_CHILD */
 
-                    }  /* if ( ret != 0 ) */
+#if defined( DEBUG ) && defined( SHOW_CONNECTIONS )
 
-#ifdef DEBUG
+                         /* Save the server's address information. */
 
-                    printf( "\nShutting down sockets.\n" );
-
-#else
-
-                    printf( "\n" );
+                         memcpy( ( void * )( &server_addr ),
+                                 ( void * )( &server ),
+                                 sizeof( struct sockaddr_in ) );
 
 #endif
 
-                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                            domain, *type );
+                    }    /* if ( pid == ( -1 ) ) */
+
+               }
+               else  /* use_server == 0 */
+               {
+                    /* Try to connect to the remote server. */
 
 #ifdef DEBUG
 
-                    if ( ret == 0 )
+                    if ( initial == 1 )
                     {
-                         printf( "\n" );
+                         printf( "Trying to connect to %s...\n", ip_str );
+                    }
+                    else
+                    {
+                         printf( "Trying to reconnect to %s...\n", ip_str );
                     }
 
 #endif
 
                     errno = 0;
-                    return ( -1 );
+                    ret = connect( *csock_fd,
+                                   ( struct sockaddr * )( &server ),
+                                   sizeof( struct sockaddr_in ) );
 
-               }
-               else  /* ret == 0 */
-               {
-                    /* We couldn't pass it back from the child process. */
-
-                    *ssock_fd = *csock_fd + 1;
-
-#ifdef WAIT_FOR_CHILD
-
-#ifdef DEBUG
-
-                    printf( "Waiting for the child process...\n" );
-
-#endif
-
-                    errno = 0;
-                    ret = waitpid( ( -1 ), NULL, 0 );
-                    save_errno = errno;
-
-#ifdef SHOW_WAIT_ERRORS
-
-                    if ( ret == ( -1 ) )
+                    if ( ret != 0 )
                     {
+                         save_errno = errno;
                          printf( "\n\
-Something went wrong when waiting for the child process.\n" );
+Something went wrong while trying to connect to the server.\n" );
                          if ( save_errno != 0 )
                          {
                               printf( "Error: %s.\n",
                                       strerror( save_errno ) );
                          }
-                    }
-
-#endif
 
 #ifdef DEBUG
 
-                    if ( ret == pid )
-                    {
-                         printf( "The child process has exited.\n" );
-                    }
+                         printf( "\nShutting down sockets.\n" );
+
+#else
+
+                         printf( "\n" );
 
 #endif
 
-#endif  /* WAIT_FOR_CHILD */
+                         ret = shutdown_sockets( csock_fd, lsock_fd,
+                                                 ssock_fd, domain, *type );
 
-               }  /* if ( ret != 0 ) */
+#ifdef DEBUG
+
+                         if ( ret == 0 )
+                         {
+                              printf( "\n" );
+                         }
+#endif
+
+                         errno = 0;
+                         return ( -1 );
+
+                    }
+                    else  /* ret == 0 */
+                    {
+
+#ifdef DEBUG
+
+                         if ( initial == 1 )
+                         {
+                              printf( "Connection to %s accepted.\n",
+                                      server_name );
+                         }
+                         else
+                         {
+                              printf( "Reconnected to %s.\n", server_name );
+                         }
+
+#endif
+
+                    }    /* if ( ret != 0 ) */
+
+               }    /* if ( use_server == 1 ) */
 
           }    /* if ( sock_type != SOCK_DGRAM ) */
 
@@ -1545,31 +1763,19 @@ Something went wrong while trying to accept the new connection.\n" );
 
                     *ssock_fd = ret;
 
+#if defined( DEBUG ) && defined( SHOW_CONNECTIONS )
+
+                    /* Save the server's address information. */
+
+                    memcpy( ( void * )( &server_addr ),
+                            ( void * )( &server ),
+                            sizeof( struct sockaddr_in ) );
+
+#endif
+
                }  /* if ( use_client == 0 ) */
 
-#ifdef DEBUG
-
-               if ( initial == 1 )
-               {
-                    printf( "Connection to %s accepted.\n", server_name );
-               }
-               else
-               {
-                    printf( "Reconnected to %s.\n", server_name );
-               }
-
-#endif
-
-#if defined( SHOW_CONNECTIONS ) && defined( DEBUG )
-
-               /* Save the server's address information. */
-
-               memcpy( ( void * )( &server_addr ), ( void * )( &server ),
-                       sizeof( struct sockaddr_in ) );
-
-#endif
-
-               /* Set the new server socket to nonblocking mode. */
+               /* Set the server socket to nonblocking mode. */
 
                errno = 0;
                ret = fcntl( *ssock_fd, F_SETFD, O_NONBLOCK );
@@ -1629,8 +1835,8 @@ The server socket has been set to nonblocking mode.\n" );
                {
                     save_errno = errno;
                     printf( "\n\
-Something went wrong when setting the SO_KEEPALIVE option for the server.\
-\n" );
+Something went wrong when setting the\n\
+SO_KEEPALIVE option on the server socket.\n" );
                     if ( save_errno != 0 )
                     {
                          printf( "Error: %s.\n", strerror( save_errno ) );
@@ -1669,6 +1875,62 @@ Something went wrong when setting the SO_KEEPALIVE option for the server.\
 The SO_KEEPALIVE option has been set on the server socket.\n" );
 
 #endif
+
+#ifdef USE_DONTROUTE_AF_INET
+
+          /* Set the SO_DONTROUTE option on the server socket. */
+
+          size = sizeof( opt );
+          opt = 1;
+          errno = 0;
+          ret = setsockopt( *ssock_fd, SOL_SOCKET, SO_DONTROUTE, &opt,
+                            size );
+          if ( ret != 0 )
+          {
+               save_errno = errno;
+               printf( "\n\
+Something went wrong when setting the\n\
+SO_DONTROUTE option on the server socket.\n" );
+               if ( save_errno != 0 )
+               {
+                    printf( "Error: %s.\n", strerror( save_errno ) );
+               }
+
+#ifdef DEBUG
+
+               printf( "\nShutting down sockets.\n" );
+
+#else
+
+               printf( "\n" );
+
+#endif
+
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
+
+#ifdef DEBUG
+
+               if ( ret == 0 )
+               {
+                    printf( "\n" );
+               }
+
+#endif
+
+               errno = 0;
+               return ( -1 );
+
+          }    /* if ( ret != 0 ) */
+
+#ifdef DEBUG
+
+          printf( "\
+The SO_DONTROUTE option has been set on the server socket.\n" );
+
+#endif
+
+#endif  /* USE_DONTROUTE_AF_INET */
 
           }    /* if ( sock_type != SOCK_DGRAM ) */
 
@@ -1738,8 +2000,8 @@ The client socket has been set to nonblocking mode.\n" );
                {
                     save_errno = errno;
                     printf( "\n\
-Something went wrong when setting the SO_KEEPALIVE option for the client.\
-\n" );
+Something went wrong when setting the\n\
+SO_KEEPALIVE option on the client socket.\n" );
                     if ( save_errno != 0 )
                     {
                          printf( "Error: %s.\n", strerror( save_errno ) );
@@ -1844,8 +2106,8 @@ The client socket has been set to nonblocking mode.\n" );
                {
                     save_errno = errno;
                     printf( "\n\
-Something went wrong when setting the SO_BROADCAST option for the client.\
-\n" );
+Something went wrong when setting the\n\
+SO_BROADCAST option on the client socket.\n" );
                     if ( save_errno != 0 )
                     {
                          printf( "Error: %s.\n", strerror( save_errno ) );
@@ -1889,64 +2151,57 @@ The SO_BROADCAST option has been set on the client socket.\n" );
 
 #ifdef USE_DONTROUTE_AF_INET
 
-               /* This has already been set if sock_type == SOCK_STREAM. */
+               /* Set the SO_DONTROUTE option on the client socket. */
 
-               if ( use_client == 1 && sock_type == SOCK_DGRAM )
+               size = sizeof( opt );
+               opt = 1;
+               errno = 0;
+               ret = setsockopt( *csock_fd, SOL_SOCKET, SO_DONTROUTE, &opt,
+                                 size );
+               if ( ret != 0 )
                {
-                    /* Set the SO_DONTROUTE option on the client socket. */
-
-                    size = sizeof( opt );
-                    opt = 1;
-                    errno = 0;
-                    ret = setsockopt( *csock_fd, SOL_SOCKET, SO_DONTROUTE,
-                                      &opt, size );
-                    if ( ret != 0 )
+                    save_errno = errno;
+                    printf( "\n\
+Something went wrong when setting the\n\
+SO_DONTROUTE option on the client socket.\n" );
+                    if ( save_errno != 0 )
                     {
-                         save_errno = errno;
-                         printf( "\n\
-Something went wrong when setting the SO_DONTROUTE option for the client.\
-\n" );
-                         if ( save_errno != 0 )
-                         {
-                              printf( "Error: %s.\n",
-                                      strerror( save_errno ) );
-                         }
+                         printf( "Error: %s.\n", strerror( save_errno ) );
+                    }
 
 #ifdef DEBUG
 
-                         printf( "\nShutting down sockets.\n" );
+                    printf( "\nShutting down sockets.\n" );
 
 #else
 
+                    printf( "\n" );
+
+#endif
+
+                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
+                                            domain, *type );
+
+#ifdef DEBUG
+
+                    if ( ret == 0 )
+                    {
                          printf( "\n" );
+                    }
 
 #endif
 
-                         ret = shutdown_sockets( csock_fd, lsock_fd,
-                                                 ssock_fd, domain, *type );
+                    errno = 0;
+                    return ( -1 );
+
+               }    /* if ( ret != 0 ) */
 
 #ifdef DEBUG
 
-                         if ( ret == 0 )
-                         {
-                              printf( "\n" );
-                         }
-
-#endif
-
-                         errno = 0;
-                         return ( -1 );
-
-                    }    /* if ( ret != 0 ) */
-
-#ifdef DEBUG
-
-                    printf( "\
+               printf( "\
 The SO_DONTROUTE option has been set on the client socket.\n" );
 
 #endif
-
-               }    /* if ( use_client == 1 && sock_type == SOCK_DGRAM ) */
 
 #endif  /* USE_DONTROUTE_AF_INET */
 
@@ -2014,72 +2269,6 @@ The default target for the client socket has\
 
      }    /* if ( use_client == 1 ) */
 
-#ifdef USE_DONTROUTE_AF_INET
-
-     if ( use_server == 1 )
-     {
-          /* This has already been set if we are using datagrams. */
-
-          if ( sock_type != SOCK_DGRAM )
-          {
-               /* Set the SO_DONTROUTE option on the server socket. */
-
-               size = sizeof( opt );
-               opt = 1;
-               errno = 0;
-               ret = setsockopt( *ssock_fd, SOL_SOCKET, SO_DONTROUTE,
-                                 &opt, size );
-               if ( ret != 0 )
-               {
-                    save_errno = errno;
-                    printf( "\n\
-Something went wrong when setting the SO_DONTROUTE option for the server.\
-\n" );
-                    if ( save_errno != 0 )
-                    {
-                         printf( "Error: %s.\n", strerror( save_errno ) );
-                    }
-
-#ifdef DEBUG
-
-                    printf( "\nShutting down sockets.\n" );
-
-#else
-
-                    printf( "\n" );
-
-#endif
-
-                    ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                            domain, *type );
-
-#ifdef DEBUG
-
-                    if ( ret == 0 )
-                    {
-                         printf( "\n" );
-                    }
-
-#endif
-
-                    errno = 0;
-                    return ( -1 );
-
-               }    /* if ( ret != 0 ) */
-
-#ifdef DEBUG
-
-               printf( "\
-The SO_DONTROUTE option has been set on the server socket.\n" );
-
-#endif
-
-          }  /* if ( sock_type != SOCK_DGRAM ) */
-
-     }    /* if ( use_server == 1 ) */
-
-#endif  /* USE_DONTROUTE_AF_INET */
-
 #ifdef SHOW_CONNECTIONS
 
 #ifdef DEBUG
@@ -2104,7 +2293,7 @@ The SO_DONTROUTE option has been set on the server socket.\n" );
                {
                     save_errno = errno;
                     printf( "\n\
-Something went wrong when calling getsockname(3) \
+Something went wrong when calling getsockname(3)\n\
 for the server's listening socket.\n" );
                     if ( save_errno != 0 )
                     {
@@ -2177,7 +2366,7 @@ Something went wrong while using inet_ntop(3).\n" );
                     else
                     {
                          printf( "\
-The server socket address is listed as %s:%u.\n", buffer,
+The server socket's address is listed as %s:%u.\n", buffer,
                                  ( uint16_t )server_addr.sin_port );
                     }
 
@@ -2223,7 +2412,7 @@ Something went wrong while using inet_ntop(3).\n" );
                     else
                     {
                          printf( "\
-The client socket address is listed as %s:%u.\n", buffer,
+The client socket's address is listed as %s:%u.\n", buffer,
                                  ( uint16_t )client_addr.sin_port );
                     }
 

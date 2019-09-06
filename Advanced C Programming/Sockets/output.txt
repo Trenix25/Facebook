@@ -1,0 +1,71 @@
+Calling sigaction(2) to set the catch for SIGALRM.
+Calling sigaction(2) to set the catch for SIGIO.
+Calling sigaction(2) to set the catch for SIGURG.
+
+What socket domain would you like to use?
+
+1) AF_BLUETOOTH (Nearby Bluetooth communications)
+2) AF_INET (IPv4)
+3) AF_INET6 (IPv6)
+4) AF_UNIX or AF_LOCAL (Local communications)
+5) Exit
+
+>> 2
+
+How would you like to set this up?
+
+1) Run a client and a server on this device.
+2) Run a client on this device and a server on another device.
+3) Run a client on another device and a server on this device.
+
+>> 1
+
+Would you like to use the default localhost address?
+
+1) Use the default localhost address of 127.0.0.1.
+2) Try to use another IPv4 address used by this device.
+
+>> 1
+
+What type of AF_INET socket would you like to use?
+
+1) Stream
+2) Datagram
+
+>> 1
+
+Using socket type: 1 (Stream)
+
+What port would you like the server to listen on?
+
+>> 2000
+
+Using server listening port: 2000.
+
+Using server_name: "localhost", port: "2000"
+
+use_client: 1, use_server: 1, use_localhost: 1.
+
+The server's listening socket has been opened.
+The server's listening socket has been bound.
+The server's listening socket is listening for new connections.
+The client socket has been opened.
+The server is ready and waiting to accept a new connection.
+Trying to connect to 127.0.0.1...
+
+Something went wrong while trying to connect to the server.
+Error: Connection timed out.
+
+Something went wrong when calling accept(2).
+Error: Interrupted system call.
+
+Waiting for the child process...
+The child process has exited.
+
+Shutting down sockets.
+
+Something went wrong while trying to open the sockets.
+
+*csock_fd: -1, *lsock_fd: -1, *ssock_fd: -1.
+
+Program failed.  Exiting.

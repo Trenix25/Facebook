@@ -1,18 +1,24 @@
 /*
 
-     setup_af_unix.c
+     setup_af_unix_1p.c
 
      This function creates sockets in the AF_UNIX domain and
      connects them to each other.  If a socket file descriptor
      is not -1 then it will presume that the socket already exists
      and proceed to try to connect it.
 
+     There are two files that define setup_af_unix().  The single
+     process version might be unstable because the call to connect(2)
+     might cause the program to hang on some systems so the two
+     process version was created.  You must define one and only
+     one version to use in the Makefile.
+
      Written by Matthew Campbell.
 
 */
 
-#ifndef _SETUP_AF_UNIX_C
-#define _SETUP_AF_UNIX_C
+#ifndef _SETUP_AF_UNIX_1P_C
+#define _SETUP_AF_UNIX_1P_C
 
 #include "sockets.h"
 
@@ -357,8 +363,8 @@ Something went wrong when binding the server socket.\n" );
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -484,8 +490,8 @@ Something went wrong when opening the client socket.\n" );
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -536,8 +542,8 @@ Something went wrong when setting the client socket to nonblocking mode.\
 
 #endif
 
-          ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                  domain, *type );
+          ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                  *type );
 
 #ifdef DEBUG
 
@@ -598,8 +604,8 @@ Something went wrong while trying to connect the two sockets.\n" );
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -645,8 +651,8 @@ Something went wrong while trying to accept the new connection.\n" );
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -695,8 +701,8 @@ Something went wrong when setting the server socket to nonblocking mode.\
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -749,8 +755,8 @@ Something went wrong when setting the SO_KEEPALIVE option for the server.\
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -801,8 +807,8 @@ Something went wrong when setting the SO_KEEPALIVE option for the client.\
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -861,8 +867,8 @@ Something went wrong while trying to set\
 
 #endif
 
-               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd,
-                                       domain, *type );
+               ret = shutdown_sockets( csock_fd, lsock_fd, ssock_fd, domain,
+                                       *type );
 
 #ifdef DEBUG
 
@@ -899,6 +905,6 @@ The default target for the client socket has\
      return 0;
 }
 
-#endif /* _SETUP_AF_UNIX_C */
+#endif /* _SETUP_AF_UNIX_1P_C */
 
-/* EOF setup_af_unix.c */
+/* EOF setup_af_unix_1p.c */

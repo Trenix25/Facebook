@@ -119,70 +119,6 @@ fsync( *ssock_fd ) rejected as an invalid argument.\n" );
 
 #endif
 
-     /* Close the server socket if it is open. */
-
-     if ( *ssock_fd >= 0 )
-     {
-          ret = close( *ssock_fd );
-          if ( ret != 0 )
-          {
-               save_errno = errno;
-               printf( "\n\
-Something went wrong when trying to close the server socket.\n" );
-               if ( save_errno != 0 )
-               {
-                    printf( "Error: %s.\n", strerror( save_errno ) );
-               }
-               printf( "\n" );
-               errno = 0;
-               return ( -1 );
-          }
-          *ssock_fd = -1;
-     }
-
-     /* Close the server's listening socket if it is open. */
-
-     if ( *lsock_fd >= 0 )
-     {
-          ret = close( *lsock_fd );
-          if ( ret != 0 )
-          {
-               save_errno = errno;
-               printf( "\n\
-Something went wrong when trying to close the server's listening socket.\
-\n" );
-               if ( save_errno != 0 )
-               {
-                    printf( "Error: %s.\n", strerror( save_errno ) );
-               }
-               printf( "\n" );
-               errno = 0;
-               return ( -1 );
-          }
-          *lsock_fd = -1;
-     }
-
-     /* Close the client socket if it is open. */
-
-     if ( *csock_fd >= 0 )
-     {
-          ret = close( *csock_fd );
-          if ( ret != 0 )
-          {
-               save_errno = errno;
-               printf( "\n\
-Something went wrong when trying to close the client socket.\n" );
-               if ( save_errno != 0 )
-               {
-                    printf( "Error: %s.\n", strerror( save_errno ) );
-               }
-               printf( "\n" );
-               errno = 0;
-               return ( -1 );
-          }
-          *csock_fd = -1;
-     }
-
      /* Remove the socket file if it exists. */
 
      if ( domain == 4 )  /* AF_UNIX */
@@ -250,7 +186,71 @@ Successfully removed the socket file \"%s\".\n", SOCK_NAME );
 
           }    /* if ( ret != 0 ) */
 
-     }    /* if ( domain == 1 ) */
+     }    /* if ( domain == 4 ) */
+
+     /* Close the server socket if it is open. */
+
+     if ( *ssock_fd >= 0 )
+     {
+          ret = close( *ssock_fd );
+          if ( ret != 0 )
+          {
+               save_errno = errno;
+               printf( "\n\
+Something went wrong when trying to close the server socket.\n" );
+               if ( save_errno != 0 )
+               {
+                    printf( "Error: %s.\n", strerror( save_errno ) );
+               }
+               printf( "\n" );
+               errno = 0;
+               return ( -1 );
+          }
+          *ssock_fd = -1;
+     }
+
+     /* Close the server's listening socket if it is open. */
+
+     if ( *lsock_fd >= 0 )
+     {
+          ret = close( *lsock_fd );
+          if ( ret != 0 )
+          {
+               save_errno = errno;
+               printf( "\n\
+Something went wrong when trying to close the server's listening socket.\
+\n" );
+               if ( save_errno != 0 )
+               {
+                    printf( "Error: %s.\n", strerror( save_errno ) );
+               }
+               printf( "\n" );
+               errno = 0;
+               return ( -1 );
+          }
+          *lsock_fd = -1;
+     }
+
+     /* Close the client socket if it is open. */
+
+     if ( *csock_fd >= 0 )
+     {
+          ret = close( *csock_fd );
+          if ( ret != 0 )
+          {
+               save_errno = errno;
+               printf( "\n\
+Something went wrong when trying to close the client socket.\n" );
+               if ( save_errno != 0 )
+               {
+                    printf( "Error: %s.\n", strerror( save_errno ) );
+               }
+               printf( "\n" );
+               errno = 0;
+               return ( -1 );
+          }
+          *csock_fd = -1;
+     }
 
      return 0;
 }

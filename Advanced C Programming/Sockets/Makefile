@@ -20,7 +20,20 @@ LFLAGS = -lm
 #
 INC = sockets.h
 #
-# Define the source code files.
+# Define the source code files.  Only select one list or the other.
+#
+#SRC = convert_endian.c \
+#      list_sockets.c \
+#      print_domain_menu.c \
+#      read_stdin.c \
+#      shutdown_sockets.c \
+#      setup_af_bluetooth.c \
+#      setup_af_inet.c \
+#      setup_af_inet6.c \
+#      setup_af_unix_1p.c \
+#      setup_sockets.c \
+#      show_socket_options.c \
+#      sockets.c
 #
 SRC = convert_endian.c \
       list_sockets.c \
@@ -30,12 +43,25 @@ SRC = convert_endian.c \
       setup_af_bluetooth.c \
       setup_af_inet.c \
       setup_af_inet6.c \
-      setup_af_unix.c \
+      setup_af_unix_2p.c \
       setup_sockets.c \
       show_socket_options.c \
       sockets.c
 #
-# Define the object files.
+# Define the object files.  Only select one list or the other.
+#
+#OBJ = convert_endian.o \
+#      list_sockets.o \
+#      print_domain_menu.o \
+#      read_stdin.o \
+#      shutdown_sockets.o \
+#      setup_af_bluetooth.o \
+#      setup_af_inet.o \
+#      setup_af_inet6.o \
+#      setup_af_unix_1p.o \
+#      setup_sockets.o \
+#      show_socket_options.o \
+#      sockets.o
 #
 OBJ = convert_endian.o \
       list_sockets.o \
@@ -45,7 +71,7 @@ OBJ = convert_endian.o \
       setup_af_bluetooth.o \
       setup_af_inet.o \
       setup_af_inet6.o \
-      setup_af_unix.o \
+      setup_af_unix_2p.o \
       setup_sockets.o \
       show_socket_options.o \
       sockets.o
