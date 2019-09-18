@@ -1,0 +1,195 @@
+#!/data/data/com.termux/files/usr/bin/bash
+#
+# This is mkbackup, the solution for the Termux homework post #1.
+#
+# Written by Matthew Campbell.
+#
+# Define our functions:
+#
+# Define move_files_old_to_tmp().
+#
+function move_files_old_to_tmp()
+{
+     mv -f files_old.zip files_old_tmp.zip
+     if [ $? != 0 ]; then
+          echo "Failed to rename files_old.zip to files_old_tmp.zip."
+	         exit 1
+     fi
+     echo "Successfully renamed files_old.zip to files_old_tmp.zip."
+     return 0
+}
+#
+# Define move_files_old_tmp_to_old().
+#
+function move_files_old_tmp_to_old()
+{
+     mv -f files_old_tmp.zip files_old.zip
+     if [ $? != 0 ]; then
+          echo "Failed to rename files_old_tmp.zip to files_old.zip."
+	         exit 1
+     fi
+     echo "Successfully renamed files_old_tmp.zip to files_old.zip."
+     return 0
+}
+#
+# Define move_files_to_old().
+#
+function move_files_to_old()
+{
+     mv -f files.zip files_old.zip
+     if [ $? != 0 ]; then
+          echo "Failed to rename files.zip to files_old.zip."
+	         exit 1
+     fi
+     echo "Successfully renamed files.zip to files_old.zip."
+     return 0
+}
+#
+# Define move_files_old_to_files().
+#
+function move_files_old_to_files()
+{
+     mv -f files_old.zip files.zip
+     if [ $? != 0 ]; then
+	         echo "Failed to rename files_old.zip to files.zip."
+	         exit 1
+     fi
+     echo "Successfully renamed files_old.zip to files.zip."
+     return 0
+}
+#
+# Define make_zip_file().
+#
+function make_zip_file()
+{
+     echo "Creating the new zip archive file files.zip..."
+#
+     zip -r9 files.zip files
+#
+     if [ $? != 0 ]; then
+          echo "Failed to create the new zip archive file files.zip."
+#
+          if [ -f files.zip ]; then
+               rm -f files.zip
+               if [ $? != 0 ]; then
+                    echo "Failed to remove the new files.zip file."
+                    exit 1
+               fi
+          fi
+#
+          move_files_old_to_files
+          move_files_old_tmp_to_old
+#
+          exit 1
+#
+     fi
+     echo "The new zip archive file files.zip has been created."
+     return 0
+}
+#
+# Define test_zip_file().
+#
+function test_zip_file()
+{
+     zip -T files.zip > /dev/null 2>&1
+#
+     if [ $? != 0 ]; then
+          echo "The new zip archive file files.zip failed the integrity check."
+#
+          if [ -f files.zip ]; then
+               rm -f files.zip
+               if [ $? != 0 ]; then
+                    echo "Failed to remove the new files.zip file."
+                    exit 1
+               fi
+          fi
+#
+          move_files_old_to_files
+          move_files_old_tmp_to_old
+#
+          exit 1
+#
+     fi
+#
+     echo "The new zip archive file files.zip has passed the integrity check."
+     return 0
+}
+#
+# Start the main part of this script.
+#
+# Make sure we're in the correct directory.
+#
+if [ ! -d /data/data/com.termux/files/home ]; then
+     echo "Your home directory does not exist!"
+     exit 1
+fi
+cd /data/data/com.termux/files/home
+#
+# Make sure the ~/files/ directory exists.
+#
+if [ ! -d files ]; then
+     echo "The ~/files/ directory does not exist."
+     echo "There is nothing to archive."
+     exit 1
+fi
+#
+# Do we have a files.zip file?
+#
+if [ -f files.zip ]; then
+#
+# Do we have a files_old.zip file?
+#
+     if [ -f files_old.zip ]; then
+#
+# Do we have a files_old_tmp.zip file?
+#
+          if [ -f files_old_tmp.zip ]; then
+#
+# Remove the files_old_tmp.zip file.
+#
+               rm -f files_old_tmp.zip
+#
+# Did that work?
+#
+               if [ $? != 0 ]; then
+                    echo "Failed to remove files_old_tmp.zip."
+                    exit 1
+               fi
+               echo "Successfully removed files_old_tmp.zip which shouldn't have been there anyway."
+	  fi
+#
+# Rename files_old.zip to files_old_tmp.zip.
+#
+          move_files_old_to_tmp
+     fi
+#
+# Rename files.zip to files_old.zip.
+#
+     move_files_to_old
+fi
+#
+# Create the new zip archive file.
+#
+make_zip_file
+#
+# Test the integrity of the new zip archive file files.zip.
+#
+test_zip_file
+#
+# Remove the file files_old_tmp.zip if it exists.
+#
+if [ -f files_old_tmp.zip ]; then
+     rm -f files_old_tmp.zip
+#
+# Did that work?
+#
+     if [ $? != 0 ]; then
+          echo "Failed to remove files_old_tmp.zip."
+          exit 1
+     fi
+     echo "Successfully removed files_old_tmp.zip."
+fi
+#
+exit 0
+#
+# EOF
