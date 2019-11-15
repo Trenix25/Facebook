@@ -1,0 +1,588 @@
+Termux v0.73
+
+/data/data/com.termux/files/home >> pkg remove --purge metasploit
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following packages will be REMOVED:
+  metasploit*
+0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
+After this operation, 0 B of additional disk space will be used.
+Do you want to continue? [Y/n] y
+(Reading database ... 36326 files and directories currently installed.)
+Purging configuration files for metasploit (5.0.48-1) ...
+/data/data/com.termux/files/home >> gem uninstall -a nokogiri
+Gem 'nokogiri' is not installed
+/data/data/com.termux/files/home >> pkg install metasploit
+Ign:1 https://dl.bintray.com/grimler/game-packages-21 games InRelease
+Hit:2 https://termux.net stable InRelease
+Ign:3 https://dl.bintray.com/grimler/termux-root-packages-21 root InRelease
+Ign:4 https://dl.bintray.com/grimler/science-packages-21 science InRelease
+Ign:5 https://dl.bintray.com/xeffyr/unstable-packages-21 unstable InRelease
+Ign:6 https://dl.bintray.com/xeffyr/x11-packages-21 x11 InRelease
+Get:7 https://dl.bintray.com/grimler/game-packages-21 games Release [5344 B]
+Hit:7 https://dl.bintray.com/grimler/game-packages-21 games Release
+Get:8 https://dl.bintray.com/grimler/termux-root-packages-21 root Release [6185 
+B]
+Hit:8 https://dl.bintray.com/grimler/termux-root-packages-21 root Release
+Get:10 https://dl.bintray.com/grimler/science-packages-21 science Release [5348 
+B]
+Hit:10 https://dl.bintray.com/grimler/science-packages-21 science Release
+Get:11 https://dl.bintray.com/xeffyr/unstable-packages-21 unstable Release [6065
+ B]
+Hit:11 https://dl.bintray.com/xeffyr/unstable-packages-21 unstable Release
+Get:13 https://dl.bintray.com/xeffyr/x11-packages-21 x11 Release [6055 B]
+Hit:13 https://dl.bintray.com/xeffyr/x11-packages-21 x11 Release
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+All packages are up to date.
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  libxslt
+The following NEW packages will be installed:
+  libxslt metasploit
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 307 kB of archives.
+After this operation, 2556 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 https://dl.bintray.com/xeffyr/unstable-packages-21 unstable/main i686 meta
+sploit all 5.0.56 [2722 B]
+Get:2 https://termux.net stable/main i686 libxslt i686 1.1.34 [305 kB]
+Fetched 307 kB in 0s (316 kB/s)
+Selecting previously unselected package libxslt.
+(Reading database ... 36324 files and directories currently installed.)
+Preparing to unpack .../libxslt_1.1.34_i686.deb ...
+Unpacking libxslt (1.1.34) ...
+Selecting previously unselected package metasploit.
+Preparing to unpack .../metasploit_5.0.56_all.deb ...
+Unpacking metasploit (5.0.56) ...
+Setting up libxslt (1.1.34) ...
+Setting up metasploit (5.0.56) ...
+[*] Downloading Metasploit Framework...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   135    0   135    0     0    194      0 --:--:-- --:--:-- --:--:--   194
+100 58.7M  100 58.7M    0     0  1088k      0  0:00:55  0:00:55 --:--:--  759k
+[*] Removing previous version Metasploit Framework...
+[*] Extracting new version of Metasploit Framework...
+[*] Installing 'rubygems-update' if necessary...
+[*] Updating Ruby gems...
+Bundler 1.17.3 installed
+RubyGems 3.0.6 installed
+Regenerating binstubs
+Parsing documentation for rubygems-3.0.6
+Installing ri documentation for rubygems-3.0.6
+
+=== 3.0.6 / 2019-08-17
+
+Bug fixes:
+
+* Revert #2813. It broke the compatibility with 3.0.x versions.
+
+
+------------------------------------------------------------------------------
+
+RubyGems installed the following executables:
+        /data/data/com.termux/files/usr/bin/gem
+        /data/data/com.termux/files/usr/bin/bundle
+
+Ruby Interactive (ri) documentation was installed. ri is kind of like man
+pages for Ruby libraries. You may access it like this:
+  ri Classname
+  ri Classname.class_method
+  ri Classname#instance_method
+If you do not wish to install this documentation in the future, use the
+--no-document flag, or set it as the default in your ~/.gemrc file. See
+'gem help env' for details.
+
+[*] Installing 'bundler' if necessary...
+[*] Installing Metasploit dependencies (may take long time)...
+Running `bundle install --jobs 2 --verbose` with bundler 1.17.3
+Found no changes, using resolution from the lockfile
+The definition is missing ["rake-13.0.0", "minitest-5.12.2", "nokogiri-1.10.4", 
+"rails-deprecated_sanitizer-1.0.3", "rails-dom-testing-1.0.9", "crass-1.0.5", "l
+oofah-2.3.1", "rails-html-sanitizer-1.3.0", "actionview-4.2.11.1", "rack-1.6.11"
+, "rack-test-0.6.3", "actionpack-4.2.11.1", "activemodel-4.2.11.1", "arel-6.0.4"
+, "activerecord-4.2.11.1", "public_suffix-4.0.1", "addressable-2.7.0", "afm-0.2.
+2", "arel-helpers-2.10.0", "aws-eventstream-1.0.3", "aws-partitions-1.228.0", "a
+ws-sigv4-1.1.0", "jmespath-1.4.0", "aws-sdk-core-3.71.0", "aws-sdk-ec2-1.113.0",
+ "aws-sdk-iam-1.31.0", "aws-sdk-kms-1.25.0", "aws-sdk-s3-1.51.0", "backports-3.1
+5.0", "bcrypt-3.1.12", "bcrypt_pbkdf-1.0.1", "bindata-2.4.4", "bit-struct-0.16",
+ "coderay-1.1.2", "cookiejar-0.3.3", "daemons-1.3.1", "diff-lcs-1.3", "dnsruby-1
+.61.3", "docile-1.3.2", "ed25519-1.2.4", "eventmachine-1.2.7", "em-socksify-0.3.
+2", "http_parser.rb-0.6.0", "em-http-request-1.1.5", "factory_bot-5.1.1", "thor-
+0.20.3", "railties-4.2.11.1", "factory_bot_rails-5.1.1", "faker-2.2.1", "multipa
+rt-post-2.1.1", "faraday-0.17.0", "filesize-0.2.0", "fivemat-1.3.7", "hashery-2.
+1.2", "rkelly-remix-0.0.7", "jsobfu-0.4.2", "json-2.2.0", "metasm-1.0.4", "metas
+ploit-concern-2.0.5", "metasploit-model-2.0.4", "pg-0.21.0", "pg_array_parser-0.
+0.9", "postgres_ext-3.0.1", "recog-2.3.5", "metasploit_data_models-3.0.10", "net
+-ssh-5.2.0", "rex-core-0.1.13", "rex-socket-0.1.20", "rubyntlm-0.6.2", "rubyzip-
+2.0.0", "metasploit-credential-3.0.3", "metasploit-payloads-1.3.78", "metasploit
+_payloads-mettle-0.5.16", "mqtt-0.5.0", "msgpack-1.3.1", "nessus_rest-0.1.6", "n
+etwork_interface-0.0.2", "nexpose-7.2.1", "sawyer-0.8.2", "octokit-4.14.0", "ope
+nssl-ccm-1.2.2", "openvas-omp-0.0.4", "pcaprub-0.13.0", "packetfu-1.1.13", "patc
+h_finder-1.0.2", "ruby-rc4-0.1.5", "ttfunk-1.5.1", "pdf-reader-2.2.1", "rb-readl
+ine-0.5.5", "redcarpet-3.5.0", "rex-text-0.2.24", "rex-arch-0.1.13", "rex-struct
+2-0.1.2", "rex-bin_tools-0.1.6", "rex-encoder-0.1.4", "rex-exploitation-0.1.21",
+ "rex-java-0.1.5", "rex-mime-0.1.5", "rex-nop-0.1.1", "rex-ole-0.1.6", "rex-rand
+om_identifier-0.1.4", "rex-powershell-0.1.82", "rex-registry-0.1.3", "rex-rop_bu
+ilder-0.1.3", "rex-sslscan-0.1.5", "rex-zip-0.1.3", "ruby-macho-2.2.0", "windows
+_error-0.1.2", "ruby_smb-1.1.0", "rack-protection-1.5.5", "tilt-2.0.10", "sinatr
+a-1.4.8", "sqlite3-1.3.13", "sshkey-2.0.0", "thin-1.7.2", "tzinfo-data-1.2019.3"
+, "warden-1.2.7", "xdr-2.0.0", "method_source-0.9.2", "pry-0.12.2", "rspec-suppo
+rt-3.9.0", "rspec-core-3.9.0", "rspec-expectations-3.9.0", "rspec-mocks-3.9.0", 
+"rspec-3.9.0", "rspec-rails-3.9.0", "rspec-rerun-1.1.0", "simplecov-html-0.10.2"
+, "simplecov-0.17.1", "swagger-blocks-3.0.0", "timecop-0.9.1", "yard-0.9.20"]
+HTTP GET https://index.rubygems.org/versions
+HTTP 206 Partial Content https://index.rubygems.org/versions
+HTTP GET https://index.rubygems.org/versions
+HTTP 200 OK https://index.rubygems.org/versions
+Fetching gem metadata from https://rubygems.org/
+Looking up gems ["rake", "Ascii85", "concurrent-ruby", "i18n", "minitest", "thre
+ad_safe", "tzinfo", "activesupport", "builder", "erubis", "mini_portile2", "noko
+giri", "rails-deprecated_sanitizer", "rails-dom-testing", "crass", "loofah", "ra
+ils-html-sanitizer", "actionview", "rack", "rack-test", "actionpack", "activemod
+el", "arel", "activerecord", "public_suffix", "addressable", "afm", "arel-helper
+s", "aws-eventstream", "aws-partitions", "aws-sigv4", "jmespath", "aws-sdk-core"
+, "aws-sdk-ec2", "aws-sdk-iam", "aws-sdk-kms", "aws-sdk-s3", "backports", "bcryp
+t", "bcrypt_pbkdf", "bindata", "bit-struct", "coderay", "cookiejar", "daemons", 
+"diff-lcs", "dnsruby", "docile", "ed25519", "eventmachine", "em-socksify", "http
+_parser.rb", "em-http-request", "factory_bot", "thor", "railties", "factory_bot_
+rails", "faker", "multipart-post", "faraday", "filesize", "fivemat", "hashery", 
+"rkelly-remix", "jsobfu", "json", "metasm", "metasploit-concern", "metasploit-mo
+del", "pg", "pg_array_parser", "postgres_ext", "recog", "metasploit_data_models"
+, "net-ssh", "rex-core", "rex-socket", "rubyntlm", "rubyzip", "metasploit-creden
+tial", "metasploit-payloads", "metasploit_payloads-mettle", "mqtt", "msgpack", "
+nessus_rest", "network_interface", "nexpose", "sawyer", "octokit", "openssl-ccm"
+, "openvas-omp", "pcaprub", "packetfu", "patch_finder", "ruby-rc4", "ttfunk", "p
+df-reader", "rb-readline", "redcarpet", "rex-text", "rex-arch", "rex-struct2", "
+rex-bin_tools", "rex-encoder", "rex-exploitation", "rex-java", "rex-mime", "rex-
+nop", "rex-ole", "rex-random_identifier", "rex-powershell", "rex-registry", "rex
+-rop_builder", "rex-sslscan", "rex-zip", "ruby-macho", "windows_error", "ruby_sm
+b", "rack-protection", "tilt", "sinatra", "sqlite3", "sshkey", "thin", "tzinfo-d
+ata", "warden", "xdr", "xmlrpc", "metasploit-framework", "method_source", "pry",
+ "rspec-support", "rspec-core", "rspec-expectations", "rspec-mocks", "rspec", "r
+spec-rails", "rspec-rerun", "simplecov-html", "simplecov", "swagger-blocks", "ti
+mecop", "yard"]
+HTTP GET https://index.rubygems.org/info/actionview
+HTTP GET https://index.rubygems.org/info/activesupport
+HTTP GET https://index.rubygems.org/info/nokogiri
+HTTP GET https://index.rubygems.org/info/loofah
+HTTP GET https://index.rubygems.org/info/activemodel
+HTTP GET https://index.rubygems.org/info/aws-sdk-s3
+HTTP GET https://index.rubygems.org/info/crass
+HTTP GET https://index.rubygems.org/info/aws-partitions
+HTTP GET https://index.rubygems.org/info/minitest
+HTTP GET https://index.rubygems.org/info/aws-sdk-core
+HTTP GET https://index.rubygems.org/info/aws-sdk-ec2
+HTTP GET https://index.rubygems.org/info/aws-sdk-iam
+HTTP GET https://index.rubygems.org/info/actionpack
+HTTP GET https://index.rubygems.org/info/activerecord
+HTTP GET https://index.rubygems.org/info/aws-sdk-kms
+HTTP GET https://index.rubygems.org/info/recog
+HTTP GET https://index.rubygems.org/info/tzinfo
+HTTP GET https://index.rubygems.org/info/railties
+HTTP 206 Partial Content https://index.rubygems.org/info/activesupport
+HTTP 206 Partial Content https://index.rubygems.org/info/nokogiri
+HTTP GET https://index.rubygems.org/info/rake
+HTTP 206 Partial Content https://index.rubygems.org/info/loofah
+HTTP GET https://index.rubygems.org/info/metasploit-payloads
+HTTP 206 Partial Content https://index.rubygems.org/info/activemodel
+HTTP 206 Partial Content https://index.rubygems.org/info/aws-sdk-ec2
+HTTP 206 Partial Content https://index.rubygems.org/info/minitest
+HTTP GET https://index.rubygems.org/info/faker
+HTTP 206 Partial Content https://index.rubygems.org/info/aws-partitions
+HTTP 206 Partial Content https://index.rubygems.org/info/activerecord
+HTTP 206 Partial Content https://index.rubygems.org/info/tzinfo
+HTTP 206 Partial Content https://index.rubygems.org/info/recog
+HTTP GET https://index.rubygems.org/info/net-ssh
+HTTP GET https://index.rubygems.org/info/pdf-reader
+HTTP 206 Partial Content https://index.rubygems.org/info/crass
+HTTP 206 Partial Content https://index.rubygems.org/info/railties
+HTTP 206 Partial Content https://index.rubygems.org/info/rake
+HTTP 206 Partial Content https://index.rubygems.org/info/aws-sdk-kms
+HTTP 206 Partial Content https://index.rubygems.org/info/actionview
+HTTP 206 Partial Content https://index.rubygems.org/info/aws-sdk-s3
+HTTP 206 Partial Content https://index.rubygems.org/info/faker
+HTTP 206 Partial Content https://index.rubygems.org/info/actionpack
+HTTP 206 Partial Content https://index.rubygems.org/info/aws-sdk-core
+HTTP GET https://index.rubygems.org/info/rspec-rails
+HTTP 206 Partial Content https://index.rubygems.org/info/metasploit-payloads
+HTTP 206 Partial Content https://index.rubygems.org/info/aws-sdk-iam
+HTTP 206 Partial Content https://index.rubygems.org/info/pdf-reader
+HTTP 206 Partial Content https://index.rubygems.org/info/net-ssh
+HTTP 206 Partial Content https://index.rubygems.org/info/rspec-rails
+Looking up gems ["atomic", "hoe", "launchy", "functional-ruby", "ref", "abstract
+", "multi_json", "json_pure", "camping", "fcgi", "memcache-client", "mongrel", "
+ruby-openid", "test-spec", "bones", "escape_utils", "blankslate", "rake-compiler
+", "activerecord-jdbcpostgresql-adapter", "jdbc-postgres", "uri_template", "yajl
+-ruby", "librex", "rex", "faraday_middleware", "hashie", "multi_xml", "rash", "n
+etrc", "zeitwerk", "racc", "rexical", "tenderlove-frex", "weakling", "mini_porti
+le", "pkg-config", "openssl", "bcrypt-ruby", "activerecord-deprecated_finders", 
+"shotgun", "mustermann", "ruby_parser", "eventmachine-le", "preforker", "win32co
+nsole", "slop", "spoon", "ffi", "rspec-legacy_formatters", "lockfile", "cucumber
+", "spicycode-rcov", "syntax", "erubi", "rack-ssl", "rdoc", "rack-mount", "rack-
+cache", "sprockets", "journey", "pastel", "tty-pager", "tty-screen", "tty-tree",
+ "jamespath", "http-2", "echoe", "needle", "jruby-pageant", "rbnacl", "rbnacl-li
+bsodium", "webrat", "rails", "rspec-collection_matchers"]
+HTTP GET https://index.rubygems.org/info/hashie
+HTTP GET https://index.rubygems.org/info/multi_json
+HTTP GET https://index.rubygems.org/info/ruby-openid
+HTTP GET https://index.rubygems.org/info/rack-cache
+HTTP GET https://index.rubygems.org/info/hoe
+HTTP GET https://index.rubygems.org/info/cucumber
+HTTP GET https://index.rubygems.org/info/ruby_parser
+HTTP GET https://index.rubygems.org/info/pkg-config
+HTTP GET https://index.rubygems.org/info/activerecord-jdbcpostgresql-adapter
+HTTP 206 Partial Content https://index.rubygems.org/info/hashie
+HTTP GET https://index.rubygems.org/info/sprockets
+HTTP GET https://index.rubygems.org/info/ffi
+HTTP GET https://index.rubygems.org/info/zeitwerk
+HTTP 206 Partial Content https://index.rubygems.org/info/multi_json
+HTTP GET https://index.rubygems.org/info/rails
+HTTP 206 Partial Content https://index.rubygems.org/info/ffi
+HTTP 206 Partial Content https://index.rubygems.org/info/rack-cache
+HTTP 206 Partial Content https://index.rubygems.org/info/ruby-openid
+HTTP 206 Partial Content https://index.rubygems.org/info/cucumber
+HTTP 206 Partial Content https://index.rubygems.org/info/ruby_parser
+HTTP 206 Partial Content https://index.rubygems.org/info/activerecord-jdbcpostgr
+esql-adapter
+HTTP 206 Partial Content https://index.rubygems.org/info/sprockets
+HTTP 206 Partial Content https://index.rubygems.org/info/zeitwerk
+HTTP 206 Partial Content https://index.rubygems.org/info/hoe
+HTTP 206 Partial Content https://index.rubygems.org/info/pkg-config
+HTTP 206 Partial Content https://index.rubygems.org/info/rails
+Looking up gems ["markaby", "metaid", "mab", "spruz", "oauth2", "roauth", "ZenTe
+st", "RubyInline", "little-plugger", "loquacious", "bones-extras", "bones-git", 
+"rb-readline-r7", "robots", "configuration", "flexmock", "mocha", "cgi_multipart
+_eof_fix", "fastthread", "gem_plugin", "multimap", "tool", "highline", "rubyforg
+e", "rcov", "gemcutter", "allison", "tty-which", "verse", "strings", "equatable"
+, "tty-color", "hpricot", "ruby-yadis", "polyglot", "term-ansicolor", "treetop",
+ "gherkin", "multi_test", "cucumber-core", "gherkin3", "cucumber-wire", "event-b
+us", "cucumber-expressions", "cucumber-formatter-dots", "ParseTree", "sexp_proce
+ssor", "activerecord-jdbc-adapter", "hike", "actionmailer", "activeresource", "a
+ctionwebservice", "bundler", "sprockets-rails", "activejob", "actioncable", "act
+ivestorage", "actionmailbox", "actiontext"]
+HTTP GET https://index.rubygems.org/info/RubyInline
+HTTP 206 Partial Content https://index.rubygems.org/info/RubyInline
+HTTP GET https://index.rubygems.org/info/highline
+HTTP GET https://index.rubygems.org/info/cucumber-wire
+HTTP 206 Partial Content https://index.rubygems.org/info/cucumber-wire
+HTTP GET https://index.rubygems.org/info/activestorage
+HTTP GET https://index.rubygems.org/info/cucumber-expressions
+HTTP GET https://index.rubygems.org/info/gherkin
+HTTP GET https://index.rubygems.org/info/actioncable
+HTTP GET https://index.rubygems.org/info/strings
+HTTP GET https://index.rubygems.org/info/activerecord-jdbc-adapter
+HTTP GET https://index.rubygems.org/info/actionmailbox
+HTTP GET https://index.rubygems.org/info/actionmailer
+HTTP GET https://index.rubygems.org/info/bundler
+HTTP GET https://index.rubygems.org/info/activejob
+HTTP GET https://index.rubygems.org/info/cucumber-core
+HTTP GET https://index.rubygems.org/info/actiontext
+HTTP 206 Partial Content https://index.rubygems.org/info/highline
+HTTP 206 Partial Content https://index.rubygems.org/info/gherkin
+HTTP 206 Partial Content https://index.rubygems.org/info/activestorage
+HTTP 206 Partial Content https://index.rubygems.org/info/actioncable
+HTTP 206 Partial Content https://index.rubygems.org/info/activerecord-jdbc-adapt
+er
+HTTP 206 Partial Content https://index.rubygems.org/info/actionmailbox
+HTTP 206 Partial Content https://index.rubygems.org/info/actionmailer
+HTTP 206 Partial Content https://index.rubygems.org/info/strings
+HTTP 206 Partial Content https://index.rubygems.org/info/cucumber-core
+HTTP 206 Partial Content https://index.rubygems.org/info/cucumber-expressions
+HTTP 206 Partial Content https://index.rubygems.org/info/bundler
+HTTP 206 Partial Content https://index.rubygems.org/info/actiontext
+HTTP 206 Partial Content https://index.rubygems.org/info/activejob
+Looking up gems ["git", "metaclass", "bones-rcov", "bones-rspec", "bones-rubyfor
+ge", "bones-zentest", "net-scp", "unicode_utils", "unicode-display_width", "fara
+day-middleware", "httpauth", "jwt", "cucumber-messages", "os", "c21e", "rails-ob
+servers", "activemodel-serializers-xml", "facets", "SexpProcessor", "tins", "ter
+mios", "trollop", "marcel", "celluloid", "coffee-rails", "em-hiredis", "faye-web
+socket", "redis", "websocket-driver", "nio4r", "mail", "text-format", "cucumber-
+tag_expressions", "strings-ansi", "activemodel-globalid", "globalid"]
+HTTP GET https://index.rubygems.org/info/cucumber-messages
+HTTP GET https://index.rubygems.org/info/tins
+HTTP GET https://index.rubygems.org/info/strings-ansi
+HTTP 206 Partial Content https://index.rubygems.org/info/cucumber-messages
+HTTP 206 Partial Content https://index.rubygems.org/info/tins
+HTTP 206 Partial Content https://index.rubygems.org/info/strings-ansi
+Looking up gems ["mimemagic", "coffee-script", "timers", "facter", "celluloid-es
+sentials", "celluloid-extras", "celluloid-fsm", "celluloid-pool", "celluloid-sup
+ervision", "dotenv", "nenv", "rspec-logsplit", "websocket-extensions", "curses",
+ "hiredis", "text-hyphen", "mime-types", "tlsmail", "mini_mime", "google-protobu
+f"]
+HTTP GET https://index.rubygems.org/info/google-protobuf
+HTTP 206 Partial Content https://index.rubygems.org/info/google-protobuf
+Looking up gems ["celluloid-gems", "coffee-script-source", "execjs", "coveralls"
+, "rubocop", "hitimes", "CFPropertyList", "sys-admin", "win32-api", "win32-dir",
+ "windows-api", "windows-pr", "win32-security", "dotenv-deployment", "archive-ta
+r-minitar", "mime-types-data"]
+HTTP GET https://index.rubygems.org/info/mime-types-data
+HTTP GET https://index.rubygems.org/info/rubocop
+HTTP 206 Partial Content https://index.rubygems.org/info/mime-types-data
+HTTP 206 Partial Content https://index.rubygems.org/info/rubocop
+Looking up gems ["test-unit", "mkrf", "colorize", "rest-client", "libxml-ruby", 
+"ffi-win32-extensions", "minitar", "minitar-cli", "rainbow", "parser", "powerpac
+k", "ruby-progressbar", "astrolabe", "parallel", "jaro_winkler", "psych"]
+HTTP GET https://index.rubygems.org/info/parallel
+HTTP GET https://index.rubygems.org/info/jaro_winkler
+HTTP 206 Partial Content https://index.rubygems.org/info/jaro_winkler
+HTTP 206 Partial Content https://index.rubygems.org/info/parallel
+Looking up gems ["powerbar", "jar-dependencies", "power_assert", "http-cookie", 
+"http-accept", "ast"]
+Looking up gems ["ansi", "domain_name", "pattern-match", "ruby-maven"]
+Looking up gems ["unf", "maven-tools", "ruby-maven-libs"]
+Looking up gems ["unf_ext", "virtus"]
+Looking up gems ["descendants_tracker", "axiom-types", "coercible", "equalizer"]
+Looking up gems ["adamantium", "ice_nine"]
+Looking up gems ["memoizable"]
+Fetching rake 13.0.0
+Installing rake 13.0.0
+0:  rake (13.0.0) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/speci
+fications/rake-13.0.0.gemspec
+Using Ascii85 1.0.3
+0:  Ascii85 (1.0.3) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/spe
+cifications/Ascii85-1.0.3.gemspec
+Using concurrent-ruby 1.0.5
+0:  concurrent-ruby (1.0.5) from /data/data/com.termux/files/usr/lib/ruby/gems/2
+.6.0/specifications/concurrent-ruby-1.0.5.gemspec
+Using i18n 0.9.5
+0:  i18n (0.9.5) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/specif
+ications/i18n-0.9.5.gemspec
+Fetching minitest 5.12.2
+Installing minitest 5.12.2
+0:  minitest (5.12.2) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/s
+pecifications/minitest-5.12.2.gemspec
+Using thread_safe 0.3.6
+0:  thread_safe (0.3.6) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0
+/specifications/thread_safe-0.3.6.gemspec
+Using tzinfo 1.2.5
+0:  tzinfo (1.2.5) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/spec
+ifications/tzinfo-1.2.5.gemspec
+Using activesupport 4.2.11.1
+0:  activesupport (4.2.11.1) from /data/data/com.termux/files/usr/lib/ruby/gems/
+2.6.0/specifications/activesupport-4.2.11.1.gemspec
+Using builder 3.2.3
+0:  builder (3.2.3) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/spe
+cifications/builder-3.2.3.gemspec
+Using erubis 2.7.0
+0:  erubis (2.7.0) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/spec
+ifications/erubis-2.7.0.gemspec
+Using mini_portile2 2.4.0
+0:  mini_portile2 (2.4.0) from /data/data/com.termux/files/usr/lib/ruby/gems/2.6
+.0/specifications/mini_portile2-2.4.0.gemspec
+Fetching nokogiri 1.10.4
+Installing nokogiri 1.10.4 with native extensions
+Building native extensions with: '--use-system-libraries'
+This could take a while...
+Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+
+current directory:
+/data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/gems/nokogiri-1.10.4/ext/nok
+ogiri
+/data/data/com.termux/files/usr/bin/ruby -I
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0 -r
+./siteconf20191115-1967-13x6izh.rb extconf.rb --use-system-libraries
+checking if the C compiler accepts ... *** extconf.rb failed ***
+Could not create Makefile due to some reason, probably lack of necessary
+libraries and/or headers.  Check the mkmf.log file for more details.  You may
+need configuration options.
+
+Provided configuration options:
+        --with-opt-dir
+        --without-opt-dir
+        --with-opt-include
+        --without-opt-include=${opt-dir}/include
+        --with-opt-lib
+        --without-opt-lib=${opt-dir}/lib
+        --with-make-prog
+        --without-make-prog
+        --srcdir=.
+        --curdir
+        --ruby=/data/data/com.termux/files/usr/bin/$(RUBY_BASE_NAME)
+        --help
+        --clean
+/data/data/com.termux/files/usr/lib/ruby/2.6.0/mkmf.rb:467:in `try_do': The
+compiler failed to generate an executable file. (RuntimeError)
+You have to install development tools first.
+from /data/data/com.termux/files/usr/lib/ruby/2.6.0/mkmf.rb:585:in `block in
+try_compile'
+from /data/data/com.termux/files/usr/lib/ruby/2.6.0/mkmf.rb:532:in
+`with_werror'
+from /data/data/com.termux/files/usr/lib/ruby/2.6.0/mkmf.rb:585:in
+`try_compile'
+        from extconf.rb:138:in `nokogiri_try_compile'
+        from extconf.rb:162:in `block in add_cflags'
+from /data/data/com.termux/files/usr/lib/ruby/2.6.0/mkmf.rb:643:in
+`with_cflags'
+        from extconf.rb:161:in `add_cflags'
+        from extconf.rb:416:in `<main>'
+
+To see why this extension failed to compile, please check the mkmf.log which can
+be found here:
+
+/data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/extensions/x86-linux/2.6.0/n
+okogiri-1.10.4/mkmf.log
+
+extconf failed, exit code 1
+
+Gem files will remain installed in
+/data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/gems/nokogiri-1.10.4 for
+inspection.
+Results logged to
+/data/data/com.termux/files/usr/lib/ruby/gems/2.6.0/extensions/x86-linux/2.6.0/n
+okogiri-1.10.4/gem_make.out
+
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/builder.rb
+:99:in
+`run'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/ext_conf_b
+uilder.rb:47:in
+`block in build'
+  /data/data/com.termux/files/usr/lib/ruby/2.6.0/tempfile.rb:295:in `open'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/ext_conf_b
+uilder.rb:29:in
+`build'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/builder.rb
+:185:in
+`block in build_extension'
+/data/data/com.termux/files/usr/lib/ruby/2.6.0/monitor.rb:235:in
+`mon_synchronize'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/builder.rb
+:181:in
+`build_extension'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/builder.rb
+:229:in
+`block in build_extensions'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/builder.rb
+:226:in
+`each'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/ext/builder.rb
+:226:in
+`build_extensions'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/installer.rb:8
+30:in
+`build_extensions'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/rubygems_gem_in
+staller.rb:30:in
+`build_extensions'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/rubygems/installer.rb:3
+20:in
+`install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/source/rubygems
+.rb:155:in
+`block in install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/rubygems_integr
+ation.rb:221:in
+`preserve_paths'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/source/rubygems
+.rb:144:in
+`install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/gem_i
+nstaller.rb:63:in
+`install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/gem_i
+nstaller.rb:68:in
+`block in install_with_settings'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/rubygems_integr
+ation.rb:800:in
+`install_with_build_args'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/gem_i
+nstaller.rb:68:in
+`install_with_settings'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/gem_i
+nstaller.rb:16:in
+`install_from_spec'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/paral
+lel_installer.rb:164:in
+`do_install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/paral
+lel_installer.rb:148:in
+`install_serially'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/paral
+lel_installer.rb:103:in
+`call'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer/paral
+lel_installer.rb:78:in
+`call'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer.rb:28
+9:in
+`install_in_parallel'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer.rb:19
+7:in
+`install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer.rb:92
+:in
+`block in run'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/process_lock.rb
+:12:in
+`block in lock'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/process_lock.rb
+:9:in
+`open'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/process_lock.rb
+:9:in
+`lock'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer.rb:73
+:in
+`run'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/installer.rb:25
+:in
+`install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/cli/install.rb:
+65:in
+`run'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/cli.rb:235:in
+`block in install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/settings.rb:143
+:in
+`temporary'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/cli.rb:234:in
+`install'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/vendor/thor/lib
+/thor/command.rb:27:in
+`run'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/vendor/thor/lib
+/thor/invocation.rb:126:in
+`invoke_command'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/vendor/thor/lib
+/thor.rb:387:in
+`dispatch'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/cli.rb:27:in
+`dispatch'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/vendor/thor/lib
+/thor/base.rb:466:in
+`start'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/cli.rb:18:in
+`start'
+  /data/data/com.termux/files/usr/bin/bundle:30:in `block in <main>'
+/data/data/com.termux/files/usr/lib/ruby/site_ruby/2.6.0/bundler/friendly_errors
+.rb:124:in
+`with_friendly_errors'
+  /data/data/com.termux/files/usr/bin/bundle:22:in `<main>'
+
+An error occurred while installing nokogiri (1.10.4), and Bundler
+cannot continue.
+Make sure that `gem install nokogiri -v '1.10.4' --source
+'https://rubygems.org/'` succeeds before bundling.
+
+In Gemfile:
+  factory_bot_rails was resolved to 5.1.1, which depends on
+    railties was resolved to 4.2.11.1, which depends on
+      actionpack was resolved to 4.2.11.1, which depends on
+        actionview was resolved to 4.2.11.1, which depends on
+          rails-dom-testing was resolved to 1.0.9, which depends on
+            nokogiri
+dpkg: error processing package metasploit (--configure):
+ installed metasploit package post-installation script subprocess returned error
+ exit status 5
+Processing triggers for man (1.14.5-1) ...
+Errors were encountered while processing:
+ metasploit
+E: Sub-process /data/data/com.termux/files/usr/bin/dpkg returned an error code (
+1)
+/data/data/com.termux/files/home >>
