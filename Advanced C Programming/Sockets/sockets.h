@@ -27,6 +27,7 @@
 #include <netdb.h>
 #include <stdio.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
