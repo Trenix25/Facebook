@@ -1,0 +1,164 @@
+$ cat sizes.c
+/*
+
+     sizes.c
+     Displays the size in bytes for each type.
+     Written by Matthew Campbell.
+
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main( void )
+{
+     printf( "\n" );
+     
+     printf( "           sizeof( char ): %z\n         sizeof( char * ): %z\n",
+             sizeof( char ), sizeof( char * ) );
+
+     printf( "      sizeof( short int ): %z\n    sizeof( short int * ): %z\n",
+             sizeof( short int ), sizeof( short int * ) );
+
+     printf( "            sizeof( int ): %z\n          sizeof( int * ): %z\n",
+             sizeof( int ), sizeof( int * ) );
+
+     printf( "           sizeof( long ): %z\n         sizeof( long * ): %z\n",
+	     sizeof( long ), sizeof( long * ) );
+
+     printf( "       sizeof( long int ): %z\n     sizeof( long int * ): %z\n",
+	     sizeof( long int ), sizeof( long int * ) );
+
+     printf( "  sizeof( long long int ): %z\nsizeof( long long int * ): %z\n",
+	     sizeof( long long int ), sizeof( long long int * ) );
+
+     printf( "          sizeof( float ): %z\n        sizeof( float * ): %z\n",
+	     sizeof( float ), sizeof( float * ) );
+
+     printf( "         sizeof( double ): %z\n       sizeof( double * ): %z\n",
+	     sizeof( double ), sizeof( double * ) );
+
+     printf( "    sizeof( long double ): %z\n  sizeof( long double * ): %z\n",
+	     sizeof( long double ), sizeof( long double * ) );
+
+     printf( "\n" );
+
+     return 0;
+}
+
+/* EOF sizes.c */
+$ gcc -pedantic -std=c17 -Wall -o sizes sizes.c
+sizes.c: In function ‘main’:
+sizes.c:16:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "           sizeof( char ): %z\n         sizeof( char * ): %z\n",
+                                            ^~
+sizes.c:16:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "           sizeof( char ): %z\n         sizeof( char * ): %z\n",
+                                                                           ^~
+sizes.c:16:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "           sizeof( char ): %z\n         sizeof( char * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:19:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "      sizeof( short int ): %z\n    sizeof( short int * ): %z\n",
+                                            ^~
+sizes.c:19:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "      sizeof( short int ): %z\n    sizeof( short int * ): %z\n",
+                                                                           ^~
+sizes.c:19:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "      sizeof( short int ): %z\n    sizeof( short int * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:22:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "            sizeof( int ): %z\n          sizeof( int * ): %z\n",
+                                            ^~
+sizes.c:22:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "            sizeof( int ): %z\n          sizeof( int * ): %z\n",
+                                                                           ^~
+sizes.c:22:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "            sizeof( int ): %z\n          sizeof( int * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:25:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "           sizeof( long ): %z\n         sizeof( long * ): %z\n",
+                                            ^~
+sizes.c:25:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "           sizeof( long ): %z\n         sizeof( long * ): %z\n",
+                                                                           ^~
+sizes.c:25:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "           sizeof( long ): %z\n         sizeof( long * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:28:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "       sizeof( long int ): %z\n     sizeof( long int * ): %z\n",
+                                            ^~
+sizes.c:28:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "       sizeof( long int ): %z\n     sizeof( long int * ): %z\n",
+                                                                           ^~
+sizes.c:28:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "       sizeof( long int ): %z\n     sizeof( long int * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:31:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "  sizeof( long long int ): %z\nsizeof( long long int * ): %z\n",
+                                            ^~
+sizes.c:31:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "  sizeof( long long int ): %z\nsizeof( long long int * ): %z\n",
+                                                                           ^~
+sizes.c:31:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "  sizeof( long long int ): %z\nsizeof( long long int * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:34:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "          sizeof( float ): %z\n        sizeof( float * ): %z\n",
+                                            ^~
+sizes.c:34:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "          sizeof( float ): %z\n        sizeof( float * ): %z\n",
+                                                                           ^~
+sizes.c:34:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "          sizeof( float ): %z\n        sizeof( float * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:37:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "         sizeof( double ): %z\n       sizeof( double * ): %z\n",
+                                            ^~
+sizes.c:37:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "         sizeof( double ): %z\n       sizeof( double * ): %z\n",
+                                                                           ^~
+sizes.c:37:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "         sizeof( double ): %z\n       sizeof( double * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizes.c:40:44: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "    sizeof( long double ): %z\n  sizeof( long double * ): %z\n",
+                                            ^~
+sizes.c:40:75: warning: unknown conversion type character ‘\x0a’ in format [-Wformat=]
+      printf( "    sizeof( long double ): %z\n  sizeof( long double * ): %z\n",
+                                                                           ^~
+sizes.c:40:14: warning: too many arguments for format [-Wformat-extra-args]
+      printf( "    sizeof( long double ): %z\n  sizeof( long double * ): %z\n",
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ ./sizes
+
+           sizeof( char ): %
+         sizeof( char * ): %
+      sizeof( short int ): %
+    sizeof( short int * ): %
+            sizeof( int ): %
+          sizeof( int * ): %
+           sizeof( long ): %
+         sizeof( long * ): %
+       sizeof( long int ): %
+     sizeof( long int * ): %
+  sizeof( long long int ): %
+sizeof( long long int * ): %
+          sizeof( float ): %
+        sizeof( float * ): %
+         sizeof( double ): %
+       sizeof( double * ): %
+    sizeof( long double ): %
+  sizeof( long double * ): %
+
+$ gcc -v
+Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Debian 8.3.0-6' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 8.3.0 (Debian 8.3.0-6)
+$ 
